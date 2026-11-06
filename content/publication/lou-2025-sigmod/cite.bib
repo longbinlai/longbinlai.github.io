@@ -1,0 +1,18 @@
+@article{10.1145/3698828,
+author = {Lou, Yunkai and Lai, Longbin and Lyu, Bingqing and Yang, Yufan and Zhou, XiaoLi and Yu, Wenyuan and Zhang, Ying and Zhou, Jingren},
+title = {Towards a Converged Relational-Graph Optimization Framework},
+year = {2024},
+issue_date = {June 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {2},
+number = {6},
+url = {https://doi.org/10.1145/3698828},
+doi = {10.1145/3698828},
+abstract = {The recent ISO SQL:2023 standard adopts SQL/PGQ (Property Graph Queries), facilitating graph-like querying within relational databases. This advancement, however, underscores a significant gap in how to effectively optimize SQL/PGQ queries within relational database systems. To address this gap, we extend the foundational SPJ (Select-Project-Join) queries to SPJM queries, which include an additional matching operator for representing graph pattern matching in SQL/PGQ. Although SPJM queries can be converted to SPJ queries and optimized using existing relational query optimizers, our analysis shows that such a graph-agnostic method fails to benefit from graph-specific optimization techniques found in the literature. To address this issue, we develop a converged relational-graph optimization framework called RelGo for optimizing SPJM queries, leveraging joint efforts from both relational and graph query optimizations. Using DuckDB as the underlying relational execution engine, our experiments show that RelGo can generate efficient execution plans for SPJM queries. On well-established benchmarks, these plans exhibit an average speedup of 21.90x compared to those produced by the graph-agnostic optimizer.},
+journal = {Proc. ACM Manag. Data},
+month = dec,
+articleno = {252},
+numpages = {27},
+keywords = {converged optimization framework, graph-aware, query optimization, spjm queries, sql/pgq}
+}

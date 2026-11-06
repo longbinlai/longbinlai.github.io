@@ -1,2 +1,6 @@
-_site/
-
+public/
+.idea/
+.DS_Store
+dist/
+.venv/
+__pycache__/
