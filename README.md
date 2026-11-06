@@ -46,3 +46,7 @@ To add a talk, create a Markdown file with YAML front matter containing `title`,
 ## Article translations
 
 Place a Chinese translation next to an article as `content/post/<slug>/index.zh.md`, with a `title` field in YAML front matter and the full translated Markdown body. An optional `index.en.md` provides the English version when the original is Chinese. The build automatically translates article headings on the homepage and archive and switches full bodies at the corresponding English and `/zh/` URLs. Relative images continue to use the original shared assets. All three existing posts have bilingual versions; original `index.md` files remain preserved.
+
+## Social contact section
+
+Edit `content/social.json` to update the X profile and Xiaohongshu QR asset. The homepage uses social links instead of a public mailto link. LinkedIn is omitted until a confirmed profile URL is available. The supplied QR image is preserved unchanged; the card displays its code area with CSS, and the dialog lets visitors enlarge or save the original image. Both languages and appearance modes are supported.

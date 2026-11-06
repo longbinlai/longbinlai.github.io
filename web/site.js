@@ -16,3 +16,14 @@ if (search && year) {
   year.addEventListener('change', update);
   update();
 }
+
+const qrDialog = document.querySelector('#qr-dialog');
+if (qrDialog) {
+  let opener;
+  document.querySelectorAll('.qr-open').forEach(button => button.addEventListener('click', () => {
+    opener = button;
+    qrDialog.showModal();
+  }));
+  qrDialog.querySelector('.qr-close').addEventListener('click', () => qrDialog.close());
+  qrDialog.addEventListener('close', () => opener?.focus());
+}

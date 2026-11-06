@@ -3,6 +3,7 @@ from pathlib import Path
 import argparse
 import datetime
 import html
+import json
 import re
 import shutil
 import xml.etree.ElementTree as ET
@@ -91,6 +92,11 @@ def paper(d):
 def section_head(kicker,title,link='',label='View all'):
     return f'<div class="section-head"><div><p class="eyebrow">{kicker}</p><h2>{title}</h2></div>'+ (f'<a class="text-link" href="{link}">{label} ↗</a>' if link else '')+'</div>'
 
+def contact_section():
+    config = json.loads((ROOT/'content/social.json').read_text())
+    x_icon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.9-9L.8 2h6.4l4.5 6.8L18.9 2ZM17.8 20h1.7L6.2 3.9H4.4L17.8 20Z"/></svg>'
+    return f'''<section class="section connect" id="contact" aria-labelledby="connect-title"><div class="connect-intro"><p class="eyebrow">Get in touch</p><h2 id="connect-title">Let’s connect.</h2><p>Ideas, projects, and life beyond the code.</p></div><div class="connect-grid"><div class="connect-platforms"><a class="connect-link" href="{E(config['twitter'])}" target="_blank" rel="noopener noreferrer"><span class="platform-icon">{x_icon}</span><span class="platform-copy"><strong>X / Twitter</strong><span>@LongbinLai</span></span><span class="platform-arrow" aria-hidden="true">↗</span></a><p class="connect-note">Follow along, or drop me a message.</p></div><div class="connect-qr"><div class="qr-copy"><p class="eyebrow">Xiaohongshu</p><h3>{E(config['xiaohongshu_name'])}</h3><p>Scan to follow my notes on AI and everyday life.</p><button class="qr-open text-link" type="button" aria-haspopup="dialog" aria-controls="qr-dialog">Enlarge QR code ↗</button></div><button class="qr-open qr-frame" type="button" aria-label="Enlarge Xiaohongshu QR code" aria-haspopup="dialog" aria-controls="qr-dialog"><span class="qr-window"><img src="{E(config['xiaohongshu_qr'])}" alt="Xiaohongshu QR code for Robin 同学 AI 生活" width="1279" height="1747" loading="lazy"></span></button></div></div><dialog id="qr-dialog" class="qr-dialog" aria-labelledby="qr-dialog-title"><div class="qr-dialog-head"><h2 id="qr-dialog-title">Find me on Xiaohongshu</h2><button class="qr-close" type="button" aria-label="Close QR code">×</button></div><img src="{E(config['xiaohongshu_qr'])}" alt="Xiaohongshu QR code for Robin 同学 AI 生活" width="1279" height="1747"><a class="text-link" href="{E(config['xiaohongshu_qr'])}" download="longbin-lai-xiaohongshu.jpeg">Save QR code ↓</a></dialog></section>'''
+
 def graph():
     points=[(45,55),(150,28),(265,45),(320,120),(265,205),(145,220),(40,170),(175,120)]
     edges=[(0,1),(1,2),(2,3),(3,4),(4,5),(5,6),(6,0),(0,7),(1,7),(2,7),(3,7),(4,7),(5,7),(6,7),(0,5),(2,4)]
@@ -152,14 +158,14 @@ def build():
         project_html+=f'<article class="project"><p class="eyebrow">{E(" / ".join(d.get("tags",[])[:2]))}</p><h3><a href="{d["route"]}">{E(name)} ↗</a></h3><p>{E(d.get("summary",""))}</p>{resources(d)}</article>'
     write('/project/','Projects','<section class="page">'+section_head('Open source & systems','Projects')+ '<div class="project-grid">'+project_html+'</div></section>')
     education=''.join(f'<li><strong>{E(c["course"])}</strong><span>{E(c["institution"])} · {c["year"]}</span></li>' for c in profile['education']['courses'])
-    social='<div class="social"><a class="text-link" href="mailto:longbin.lai@gmail.com">Email ↗</a><a class="text-link" href="https://scholar.google.com/citations?user=iz2jcMYAAAAJ&amp;hl=en">Google Scholar ↗</a><a class="text-link" href="https://github.com/longbinlai">GitHub ↗</a><a class="text-link" href="/files/cv.pdf">CV ↗</a></div>'
+    social='<div class="social"><a class="text-link" href="#contact">Connect ↗</a><a class="text-link" href="https://scholar.google.com/citations?user=iz2jcMYAAAAJ&amp;hl=en">Google Scholar ↗</a><a class="text-link" href="https://github.com/longbinlai">GitHub ↗</a><a class="text-link" href="/files/cv.pdf">CV ↗</a></div>'
     feature='<article class="feature"><div><p class="eyebrow">Featured open-source project</p><h3>NeuG</h3><p>A graph-native data engine for agentic applications. Graph, vector, and full-text retrieval over the same transactional data, embedded in your application or running as a service.</p><div class="social"><a class="text-link" href="https://neug.io/">Explore NeuG ↗</a><a class="text-link" href="https://github.com/alibaba/neug">Source code ↗</a></div></div>'+graph()+'</article>'
     body=f'''<section class="hero" aria-labelledby="intro-title"><div><p class="eyebrow">Researcher & engineer · Graphs / Data / AI</p><h1 id="intro-title">Longbin Lai<span style="color:var(--accent)">.</span></h1><p class="lead">Building systems that make<br>connected data useful.</p><p class="intro">{E(profile['role'])} at {E(profile['organizations'][0]['name'])}. My work spans graph databases, distributed processing, query optimization, and applications of large language models.</p>{social}</div><img class="portrait" src="/assets/avatar.jpg" width="168" height="168" alt="Portrait of Longbin Lai"></section>
 <section class="section" id="work">{section_head('01 / Engineering','Systems & open source','/project/','All projects')}{feature}<div class="project-grid">{project_html}</div></section>
 <section class="section" id="research">{section_head('02 / Research','Selected publications','/publication/','All publications')} {''.join(paper(next(d for d in pubs if d['source'].parent.name==slug)) for slug in ['lyu-2025-sigmod','lai-2025-sigmod','graphscope-2024','lai-2023-atc','graphscope-nsdi'])}</section>
 <section class="section" id="writing">{section_head('03 / Notes','Recent writing','/post/','All writing')}{''.join(map(writing,posts[:3]))}</section>
 <section class="section" id="about">{section_head('04 / Background','A little about me')}<div class="about-grid"><div class="prose" style="margin:0">{render(profile['body'])}</div><div><p class="eyebrow" style="margin-bottom:24px">Education</p><ul class="education">{education}</ul><p class="eyebrow" style="margin-bottom:12px">Research interests</p><p class="muted">{' · '.join(map(E,profile['interests']))}</p></div></div></section>
-<section class="section contact" id="contact"><div><p class="eyebrow">Get in touch</p><h2 style="margin-top:12px">Let’s connect.</h2><p>Research, open source, and conversations about data systems.</p></div><a class="text-link" href="mailto:longbin.lai@gmail.com">longbin.lai@gmail.com ↗</a></section>'''
+{contact_section()}'''
     write('/','Research & Engineering',body)
     (OUT/'404.html').write_text(page('Page not found','<section class="page"><p class="eyebrow">404</p><h1>This page has moved.</h1><p>Explore the <a class="text-link" href="/publication/">publication archive</a> or <a class="text-link" href="/">return home</a>.</p></section>'))
     (OUT/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')

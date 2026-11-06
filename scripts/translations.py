@@ -4,6 +4,10 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin
 
 TEXT = {
+'Connect ↗':'联系我 ↗','Ideas, projects, and life beyond the code.':'聊聊想法、项目，以及代码之外的生活。','Follow along, or drop me a message.':'关注动态，也欢迎私信交流。',
+'Xiaohongshu':'小红书','Scan to follow my notes on AI and everyday life.':'扫码关注，分享 AI 探索与日常生活。','Enlarge QR code ↗':'放大二维码 ↗',
+'Enlarge Xiaohongshu QR code':'放大小红书二维码','Xiaohongshu QR code for Robin 同学 AI 生活':'Robin 同学 AI 生活的小红书二维码','Find me on Xiaohongshu':'在小红书找到我','Close QR code':'关闭二维码','Save QR code ↓':'保存二维码 ↓',
+
 '← All talks':'← 全部报告','Talks & courses':'报告与课程','Materials':'资料','Explore this presentation':'查看演示资料','Open the slides or course using the links below.':'通过下方入口打开演示文稿或交互课程。','Presentation resources':'演示资料','Overview':'内容介绍',
 'Presentation materials for NeuG, a graph-native data engine for agentic applications.':'NeuG 的演示资料，介绍面向智能体应用的图原生数据引擎。',
 'The slides are maintained in a dedicated GitHub repository.':'演示文稿在独立的 GitHub 仓库中维护。',
@@ -78,7 +82,7 @@ class Translator(HTMLParser):
             if tag=='html' and key=='lang':value='zh-CN'
             elif key in ['aria-label','placeholder','alt']:value=TEXT.get(value,value)
             elif tag=='a' and key=='href':
-                if value.startswith('/') and not value.startswith('//') and not value.startswith(('/files/','/assets/')) and '.pdf' not in value and '.bib' not in value and '.html' not in value:
+                if value.startswith('/') and not value.startswith('//') and not value.startswith(('/files/','/assets/','/images/')) and '.pdf' not in value and '.bib' not in value and '.html' not in value:
                     value='/zh'+value
                 elif not value.startswith(('/', '#')) and '://' not in value and not value.startswith('mailto:'):
                     value=urljoin(self.route,value)
