@@ -149,7 +149,7 @@ def build():
             continue
         meta=str(d.get('publication','')) if d in pubs else str(d.get('date',''))[:10]
         body=f'<article class="page"><a class="back" href="/">← Home</a><p class="eyebrow" style="margin-top:30px">{E(d["route"].split("/")[1])}</p><h1>{E(d["title"])}</h1><div class="muted">{render(meta)}</div>'
-        if d.get('authors'):body+=f'<p class="muted">{E(", ".join("Longbin (Robin) Lai" if a == "admin" else str(a) for a in d["authors"]))}</p>'
+        if d.get('authors'):body+=f'<p class="muted">{E(", ".join(("Longbin Lai" if d in pubs else "Longbin (Robin) Lai") if a == "admin" else str(a) for a in d["authors"]))}</p>'
         body+=resources(d)
         if d.get('abstract'): body+='<div class="prose"><h2>Abstract</h2>'+render(d['abstract'])+'</div>'
         body+='<div class="prose">'+render(d['body'])+'</div></article>'
