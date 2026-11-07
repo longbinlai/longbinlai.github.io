@@ -134,8 +134,15 @@ def build():
     for d in pubs+posts+projects+records('talk')+records('courses')+records('slides'):
         if d['route'].startswith('/talk/'):
             body = f'<article class="page talk-detail"><a class="back" href="/talk/">← All talks</a><header class="talk-heading"><p class="eyebrow">Talks & courses</p><h1>{E(d["title"])}</h1><p class="talk-summary">{E(d.get("summary", ""))}</p>{talk_metadata(d)}</header><section class="talk-materials" aria-label="Presentation resources"><div><p class="eyebrow">Materials</p><h2>Explore this presentation</h2><p class="muted">Open the slides or course using the links below.</p></div>{resources(d)}</section><section class="prose talk-description"><h2>Overview</h2>{render(d["body"])}</section></article>'
-            if d.get('presentation'):
-                viewer = f'<section class="presentation-viewer" aria-label="Interactive presentation"><div class="presentation-toolbar"><span class="eyebrow">Interactive slides</span><a class="text-link" href="{E(d["presentation"])}" target="_blank" rel="noopener">Open presentation ↗</a></div><iframe src="{E(d["presentation"])}" title="NeuG interactive presentation" allow="fullscreen" allowfullscreen loading="eager"></iframe><p class="presentation-hint">Click the presentation, then use ← / → to navigate. Press F for full screen.</p></section>'
+            if d.get('presentation') or d.get('url_course'):
+                is_course = bool(d.get('url_course'))
+                source = d.get('presentation') or d['url_course']
+                label = 'Course overview' if is_course else 'Interactive slides'
+                link_label = 'Open course ↗' if is_course else 'Open presentation ↗'
+                frame_title = 'Interactive course' if is_course else 'NeuG interactive presentation'
+                hint = 'Explore the course outline, play each step, or open the course separately for a larger view.' if is_course else 'Click the presentation, then use ← / → to navigate. Press F for full screen.'
+                extra_class = ' course-viewer' if is_course else ''
+                viewer = f'<section class="presentation-viewer{extra_class}" aria-label="{frame_title}"><div class="presentation-toolbar"><span class="eyebrow">{label}</span><a class="text-link" href="{E(source)}" target="_blank" rel="noopener">{link_label}</a></div><iframe src="{E(source)}" title="{frame_title}" allow="fullscreen" allowfullscreen loading="eager"></iframe><p class="presentation-hint">{hint}</p></section>'
                 body = re.sub(r'<section class="talk-materials".*?</section>', lambda match: viewer, body, count=1, flags=re.S)
                 body = body.replace('class="page talk-detail"', 'class="page talk-detail has-presentation"')
             write(d['route'], d['title'], body)
