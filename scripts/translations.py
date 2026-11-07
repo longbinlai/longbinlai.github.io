@@ -4,6 +4,8 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin
 
 TEXT = {
+'NeuG | One graph engine, for in-app queries and online services':'NeuG｜同一套图引擎，覆盖应用内查询与在线服务',
+'NeuG | One graph engine, for in-app queries and online services · Longbin Lai':'NeuG｜同一套图引擎，覆盖应用内查询与在线服务 · Longbin Lai',
 'Course overview':'课程总览',
 'Interactive course':'交互式课程',
 'Explore the course outline, play each step, or open the course separately for a larger view.':'浏览课程目录，逐步播放演示，或单独打开课程以获得更大的阅读空间。',

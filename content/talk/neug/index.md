@@ -1,5 +1,5 @@
 ---
-title: NeuG Slides
+title: "NeuG | One graph engine, for in-app queries and online services"
 summary: NeuG and its applications, from knowledge workflows to fruit fly brain simulation.
 date: "2026-04-18"
 location: The Chinese University of Hong Kong, Shenzhen
