@@ -92,6 +92,15 @@ def paper(d):
 def section_head(kicker,title,link='',label='View all'):
     return f'<div class="section-head"><div><p class="eyebrow">{kicker}</p><h2>{title}</h2></div>'+ (f'<a class="text-link" href="{link}">{label} ↗</a>' if link else '')+'</div>'
 
+def talk_metadata(d):
+    items=[]
+    if d.get('date'):
+        date = str(d['date'])[:10]
+        items.append(f'<div><dt>Date</dt><dd><time datetime="{E(date)}">{E(date)}</time></dd></div>')
+    if d.get('location'):
+        items.append(f'<div><dt>Location</dt><dd>{E(d["location"])}</dd></div>')
+    return '<dl class="talk-meta">' + ''.join(items) + '</dl>' if items else ''
+
 def contact_section():
     config = json.loads((ROOT/'content/social.json').read_text())
     x_icon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.9-9L.8 2h6.4l4.5 6.8L18.9 2ZM17.8 20h1.7L6.2 3.9H4.4L17.8 20Z"/></svg>'
@@ -124,7 +133,7 @@ def build():
                 target=OUT/asset.relative_to(ROOT/'content'); target.parent.mkdir(parents=True,exist_ok=True);shutil.copy(asset,target)
     for d in pubs+posts+projects+records('talk')+records('courses')+records('slides'):
         if d['route'].startswith('/talk/'):
-            body = f'<article class="page talk-detail"><a class="back" href="/talk/">← All talks</a><header class="talk-heading"><p class="eyebrow">Talks & courses</p><h1>{E(d["title"])}</h1><p class="talk-summary">{E(d.get("summary", ""))}</p></header><section class="talk-materials" aria-label="Presentation resources"><div><p class="eyebrow">Materials</p><h2>Explore this presentation</h2><p class="muted">Open the slides or course using the links below.</p></div>{resources(d)}</section><section class="prose talk-description"><h2>Overview</h2>{render(d["body"])}</section></article>'
+            body = f'<article class="page talk-detail"><a class="back" href="/talk/">← All talks</a><header class="talk-heading"><p class="eyebrow">Talks & courses</p><h1>{E(d["title"])}</h1><p class="talk-summary">{E(d.get("summary", ""))}</p>{talk_metadata(d)}</header><section class="talk-materials" aria-label="Presentation resources"><div><p class="eyebrow">Materials</p><h2>Explore this presentation</h2><p class="muted">Open the slides or course using the links below.</p></div>{resources(d)}</section><section class="prose talk-description"><h2>Overview</h2>{render(d["body"])}</section></article>'
             if d.get('presentation'):
                 viewer = f'<section class="presentation-viewer" aria-label="Interactive presentation"><div class="presentation-toolbar"><span class="eyebrow">Interactive slides</span><a class="text-link" href="{E(d["presentation"])}" target="_blank" rel="noopener">Open presentation ↗</a></div><iframe src="{E(d["presentation"])}" title="NeuG interactive presentation" allow="fullscreen" allowfullscreen loading="eager"></iframe><p class="presentation-hint">Click the presentation, then use ← / → to navigate. Press F for full screen.</p></section>'
                 body = re.sub(r'<section class="talk-materials".*?</section>', lambda match: viewer, body, count=1, flags=re.S)
@@ -153,7 +162,7 @@ def build():
     for d in records('talk'):
         meta = str(d.get('date', ''))[:10] or 'Presentation materials'
         summary = d.get('summary', '')
-        talk_rows.append(f'<article class="talk-entry"><p class="eyebrow">{E(meta)}</p><h2><a href="{d["route"]}">{E(d["title"])}</a></h2><p class="muted">{E(summary)}</p>{resources(d)}</article>')
+        talk_rows.append(f'<article class="talk-entry"><p class="eyebrow">{E(meta)}</p><h2><a href="{d["route"]}">{E(d["title"])}</a></h2><p class="talk-location">{E(d.get("location", ""))}</p><p class="muted">{E(summary)}</p>{resources(d)}</article>')
     write('/talk/', 'Talks', '<section class="page">' + section_head('Presentations & materials', 'Talks') + '<p class="muted">Talks, courses, and presentation materials.</p>' + ''.join(talk_rows) + '</section>')
     names={'interactive':'GraphScope Interactive','gaia':'GAIA','gopt':'GOpt','glogs':'GLogS','patmat':'PatMat'}
     project_html=''

@@ -4,6 +4,14 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin
 
 TEXT = {
+'Date':'日期','Location':'地点','The Chinese University of Hong Kong, Shenzhen':'香港中文大学（深圳）','Zhejiang Gongshang University':'浙江工商大学',
+'NeuG and its applications, from knowledge workflows to fruit fly brain simulation.':'分享 NeuG 图数据库与应用案例，从知识工作流到果蝇大脑模拟。',
+'At the invitation of my PhD supervisor, Prof. Xuemin Lin, I visited The Chinese University of Hong Kong, Shenzhen to share our open-source graph database NeuG and some of its applications.':'应博士导师林学民教授邀请，前往香港中文大学（深圳），分享我们的开源图数据库 NeuG 及相关应用案例。',
+'One example stores a fruit fly’s brain connectivity in a graph database and uses the leaky integrate-and-fire (LIF) model to simulate different neuronal responses to sweet and bitter stimuli.':'其中，赛博果蝇案例将果蝇的大脑连接结构存入图数据库，使用漏积分发放（LIF）神经模型，模拟甜味与苦味刺激下不同的神经元激发。',
+'From a question to an answer: how LLM inference works, and how to make it more efficient.':'从一次提问到生成回答，理解大模型推理过程及其效率优化。',
+'Follow the lifecycle of a single answer: from model parameters and text encoding, through attention and context, to loading weights into GPU memory, matrix computation, and next-token generation.':'围绕“一次回答的诞生”，从模型参数与文本编码讲起，介绍注意力机制如何关联上下文，再进入 GPU，追踪权重载入显存、矩阵运算与下一词元生成的过程。',
+'The talk then explains inference bottlenecks and optimizations such as KV caching, batching, and quantization, showing how they improve response speed, reduce GPU memory usage, and support more concurrent users. The interactive course is in Chinese.':'进一步介绍推理中的计算与数据搬运瓶颈，以及 KV 缓存、批量处理和量化等优化方法，解释它们如何加快响应、减少显存占用，并支持更多用户同时使用。交互课程正文为中文。',
+
 'An interactive presentation on NeuG product capabilities and Wiki workflows.':'关于 NeuG 产品能力与 Wiki 工作流程的交互式演示。',
 'Explore NeuG’s embedded and service modes, graph queries and algorithms, temporary graphs, hybrid retrieval, and data lake access through a complete interactive presentation.':'通过完整的交互演示，了解 NeuG 的嵌入式与服务模式、图查询与算法、临时图、混合检索和数据湖访问。',
 'The presentation also walks through Wiki construction, maintenance, and retrieval. Use the arrow keys to move between slides, or open the presentation separately for a larger view.':'演示还介绍了 Wiki 的构建、维护与检索流程。可使用方向键翻页，或单独打开演示以获得更大的阅读空间。',

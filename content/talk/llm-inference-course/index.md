@@ -1,10 +1,12 @@
 ---
 title: How Large Language Models Run on GPUs
-summary: An interactive course on large language model inference on GPUs.
+summary: "From a question to an answer: how LLM inference works, and how to make it more efficient."
+date: "2026-11-05"
+location: Zhejiang Gongshang University
 url_course: /courses/llm-inference.html
 featured: true
 ---
 
-Learn how large language models run on GPUs through an interactive course with a course outline and playback and reading controls.
+Follow the lifecycle of a single answer: from model parameters and text encoding, through attention and context, to loading weights into GPU memory, matrix computation, and next-token generation.
 
-The course content is in Chinese. Open the original interactive HTML course from the materials section above.
+The talk then explains inference bottlenecks and optimizations such as KV caching, batching, and quantization, showing how they improve response speed, reduce GPU memory usage, and support more concurrent users. The interactive course is in Chinese.

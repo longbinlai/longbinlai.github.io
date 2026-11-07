@@ -1,11 +1,13 @@
 ---
 title: NeuG Slides
-summary: An interactive presentation on NeuG product capabilities and Wiki workflows.
+summary: NeuG and its applications, from knowledge workflows to fruit fly brain simulation.
+date: "2026-04-18"
+location: The Chinese University of Hong Kong, Shenzhen
 url_slides: /presentations/neug/index.html?lang=en
 presentation: /presentations/neug/index.html?lang=en
 featured: true
 ---
 
-Explore NeuG’s embedded and service modes, graph queries and algorithms, temporary graphs, hybrid retrieval, and data lake access through a complete interactive presentation.
+At the invitation of my PhD supervisor, Prof. Xuemin Lin, I visited The Chinese University of Hong Kong, Shenzhen to share our open-source graph database NeuG and some of its applications.
 
-The presentation also walks through Wiki construction, maintenance, and retrieval. Use the arrow keys to move between slides, or open the presentation separately for a larger view.
+One example stores a fruit fly’s brain connectivity in a graph database and uses the leaky integrate-and-fire (LIF) model to simulate different neuronal responses to sweet and bitter stimuli.
