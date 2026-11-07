@@ -50,3 +50,7 @@ Place a Chinese translation next to an article as `content/post/<slug>/index.zh.
 ## Social contact section
 
 Edit `content/social.json` to update the X profile and Xiaohongshu QR asset. The homepage uses social links instead of a public mailto link. LinkedIn is omitted until a confirmed profile URL is available. The supplied QR image is preserved unchanged; the card displays its code area with CSS, and the dialog lets visitors enlarge or save the original image. Both languages and appearance modes are supported.
+
+## NeuG presentation
+
+The complete NeuG presentation is maintained in `static/presentations/neug/`, including the original HTML and bundled assets imported from `longbinlai/neug-slides`. It is embedded directly in the NeuG talk detail page, with a standalone view at `/presentations/neug/index.html`. The `site-integration.js` bridge selects the corresponding site language and initializes the slide counter. Update this local copy to revise the presentation; the personal site does not depend on the old repository's Pages deployment or link visitors to GitHub to read it.

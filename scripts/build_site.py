@@ -125,6 +125,10 @@ def build():
     for d in pubs+posts+projects+records('talk')+records('courses')+records('slides'):
         if d['route'].startswith('/talk/'):
             body = f'<article class="page talk-detail"><a class="back" href="/talk/">← All talks</a><header class="talk-heading"><p class="eyebrow">Talks & courses</p><h1>{E(d["title"])}</h1><p class="talk-summary">{E(d.get("summary", ""))}</p></header><section class="talk-materials" aria-label="Presentation resources"><div><p class="eyebrow">Materials</p><h2>Explore this presentation</h2><p class="muted">Open the slides or course using the links below.</p></div>{resources(d)}</section><section class="prose talk-description"><h2>Overview</h2>{render(d["body"])}</section></article>'
+            if d.get('presentation'):
+                viewer = f'<section class="presentation-viewer" aria-label="Interactive presentation"><div class="presentation-toolbar"><span class="eyebrow">Interactive slides</span><a class="text-link" href="{E(d["presentation"])}" target="_blank" rel="noopener">Open presentation ↗</a></div><iframe src="{E(d["presentation"])}" title="NeuG interactive presentation" allow="fullscreen" allowfullscreen loading="eager"></iframe><p class="presentation-hint">Click the presentation, then use ← / → to navigate. Press F for full screen.</p></section>'
+                body = re.sub(r'<section class="talk-materials".*?</section>', lambda match: viewer, body, count=1, flags=re.S)
+                body = body.replace('class="page talk-detail"', 'class="page talk-detail has-presentation"')
             write(d['route'], d['title'], body)
             continue
         meta=str(d.get('publication','')) if d in pubs else str(d.get('date',''))[:10]

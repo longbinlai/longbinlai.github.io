@@ -4,6 +4,12 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin
 
 TEXT = {
+'An interactive presentation on NeuG product capabilities and Wiki workflows.':'关于 NeuG 产品能力与 Wiki 工作流程的交互式演示。',
+'Explore NeuG’s embedded and service modes, graph queries and algorithms, temporary graphs, hybrid retrieval, and data lake access through a complete interactive presentation.':'通过完整的交互演示，了解 NeuG 的嵌入式与服务模式、图查询与算法、临时图、混合检索和数据湖访问。',
+'The presentation also walks through Wiki construction, maintenance, and retrieval. Use the arrow keys to move between slides, or open the presentation separately for a larger view.':'演示还介绍了 Wiki 的构建、维护与检索流程。可使用方向键翻页，或单独打开演示以获得更大的阅读空间。',
+'Interactive presentation':'交互式演示','Interactive slides':'交互式幻灯片','Open presentation ↗':'打开完整演示 ↗','NeuG interactive presentation':'NeuG 交互式演示',
+'Click the presentation, then use ← / → to navigate. Press F for full screen.':'点击演示区域后，使用 ← / → 翻页，按 F 进入全屏。',
+
 'Connect ↗':'联系我 ↗','Ideas, projects, and life beyond the code.':'聊聊想法、项目，以及代码之外的生活。','Follow along, or drop me a message.':'关注动态，也欢迎私信交流。',
 'Xiaohongshu':'小红书','Scan to follow my notes on AI and everyday life.':'扫码关注，分享 AI 探索与日常生活。','Enlarge QR code ↗':'放大二维码 ↗',
 'Enlarge Xiaohongshu QR code':'放大小红书二维码','Xiaohongshu QR code for Robin 同学 AI 生活':'Robin 同学 AI 生活的小红书二维码','Find me on Xiaohongshu':'在小红书找到我','Close QR code':'关闭二维码','Save QR code ↓':'保存二维码 ↓',
@@ -79,8 +85,10 @@ class Translator(HTMLParser):
         out=[]
         for key,value in attrs:
             if value is None:out.append(key);continue
-            if tag=='html' and key=='lang':value='zh-CN'
-            elif key in ['aria-label','placeholder','alt']:value=TEXT.get(value,value)
+            if key in ['src', 'href'] and value.startswith('/presentations/neug/'):
+                value=value.replace('lang=en','lang=zh')
+            elif tag=='html' and key=='lang':value='zh-CN'
+            elif key in ['aria-label','placeholder','alt','title']:value=TEXT.get(value,value)
             elif tag=='a' and key=='href':
                 if value.startswith('/') and not value.startswith('//') and not value.startswith(('/files/','/assets/','/images/')) and '.pdf' not in value and '.bib' not in value and '.html' not in value:
                     value='/zh'+value
