@@ -4,6 +4,7 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin
 
 TEXT = {
+'Longbin (Robin) Lai':'赖龙彬',
 'NeuG | One graph engine, for in-app queries and online services':'NeuG｜同一套图引擎，覆盖应用内查询与在线服务',
 'NeuG | One graph engine, for in-app queries and online services · Longbin Lai':'NeuG｜同一套图引擎，覆盖应用内查询与在线服务 · Longbin Lai',
 'Course overview':'课程总览',
@@ -44,7 +45,7 @@ TEXT = {
 'Related paper ↗':'相关论文 ↗',
 
 'Presentation materials':'演示资料','NeuG Slides':'NeuG 演示文稿','Explore the NeuG presentation repository.':'查看 NeuG 演示文稿仓库。','View slides repository ↗':'查看演示文稿仓库 ↗',
-'Portrait of Longbin Lai':'Longbin Lai 的照片','Work':'项目','Research':'研究','Writing':'文章','About':'关于',
+'Portrait of Longbin Lai':'赖龙彬的照片','Work':'项目','Research':'研究','Writing':'文章','About':'关于',
 'Skip to content':'跳转到正文','Main navigation':'主导航','Longbin Lai home':'返回首页',
 'Research & Engineering':'研究与工程','Researcher & engineer · Graphs / Data / AI':'研究与工程 · 图 / 数据 / 人工智能',
 'Building systems that make':'构建数据系统，','connected data useful.':'释放关联数据的价值。',
@@ -104,6 +105,8 @@ class Translator(HTMLParser):
             if key in ['src', 'href'] and value.startswith('/presentations/neug/'):
                 value=value.replace('lang=en','lang=zh')
             elif tag=='html' and key=='lang':value='zh-CN'
+            elif key == 'content' and not value.startswith('https://longbinlai.github.io'):
+                value=TEXT.get(value,value).replace('Longbin (Robin) Lai','赖龙彬')
             elif key in ['aria-label','placeholder','alt','title']:value=TEXT.get(value,value)
             elif tag=='a' and key=='href':
                 if value.startswith('/') and not value.startswith('//') and not value.startswith(('/files/','/assets/','/images/')) and '.pdf' not in value and '.bib' not in value and '.html' not in value:
@@ -120,7 +123,10 @@ class Translator(HTMLParser):
     def handle_endtag(self,tag):self.parts.append('</'+tag+'>')
     def handle_data(self,data):
         stripped=data.strip()
-        translated=TEXT.get(stripped,stripped)
+        translated=TEXT.get(stripped,stripped).replace('Longbin (Robin) Lai','赖龙彬')
+        if stripped.endswith(' · Longbin (Robin) Lai'):
+            heading=stripped.removesuffix(' · Longbin (Robin) Lai')
+            translated=TEXT.get(heading,heading)+' · 赖龙彬'
         if stripped.startswith('Related publication · '): translated=stripped.replace('Related publication', '关联论文')
         if stripped: data=data.replace(stripped,translated,1)
         self.parts.append(escape(data,quote=False))
